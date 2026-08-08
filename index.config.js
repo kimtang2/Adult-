@@ -74,6 +74,12 @@ var index_config_default = {
     {name: "🔞聚合传媒",
       address: "https://php.doube.eu.org/spider/php/麻豆.php"}
 ]},
+t4: {
+    list: [
+        // ... 已有的其他地址
+        { name: "5lxtv", address: "https://raw.githubusercontent.com/kimtang2/Adult-/refs/heads/main/51xtv.js" }
+    ]
+}
   cms: {list: [
   {name: "🔞滴滴", address: "https://api.ddapi.cc/api.php/provide/vod"},
   {name: "🔞鸡坤", address: "https://jkunzyapi.com/api.php/provide/vod"},
