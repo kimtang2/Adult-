@@ -72,7 +72,7 @@ var index_config_default = {
   },
  t4: {list: [
         { name: "聚合传媒", address: "https://php.doube.eu.org/" },
-        { name: "5lxtv", address: "https://raw.githubusercontent.com/kimtang2/Adult-/main/51xtv.js" }
+        { name: "5lxtv", address: "https://raw.githubusercontent.com/kimtang2/Adult-/refs/heads/main/51xtv.js" }
         // 以后新增的订阅源，继续在这里添加，用逗号分隔
     ]
 },
