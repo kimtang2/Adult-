@@ -1,36 +1,169 @@
-// ============================================================
-//  KissJAV - 测试版（只返回分类，不抓取数据）
-//  用于验证 MiraPlay 是否能正常加载这个 JS 文件
-// ============================================================
-
-var rule = {
-    sites: [
-        {
-            name: 'KissJAV-Test',
-            url: 'https://kissjav.li',
-            type: 3,
-            home: 'test_home'
-        }
-    ]
-};
-
-// 简单测试函数：只返回固定的分类，不抓取任何数据
-function test_home() {
-    return {
-        class: [
-            { type_id: 'latest', type_name: 'Latest' },
-            { type_id: 'most', type_name: 'Most Viewed' }
-        ],
-        list: []  // 空列表，只测试分类显示
-    };
-}
-
-// 挂载全局
-globalThis.test_home = test_home;
-
-// 导出
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = rule;
-} else {
-    window.rule = rule;
+{
+  "tag": "短裙",
+  "list": [
+    {
+      "vod_id": "snis-946",
+      "vod_name": "毫无防备地诱惑内衣的小恶魔JK桥本Arina",
+      "vod_pic": "https://v-proxy.imgcaches.cc/images/av/9eef516a8c196867b51a639311ed5428.jpg",
+      "vod_actor": "未知女优",
+      "vod_director": "whos.tv",
+      "vod_remarks": "HD高清",
+      "vod_pubdate": "2017-06-24",
+      "vod_area": "日本",
+      "vod_year": "2017",
+      "vod_tags": [
+        "中文字幕",
+        "女高中生",
+        "美丽的女孩",
+        "短裙",
+        "单体作品",
+        "恶作剧",
+        "超薄格",
+        "高清",
+        "独家",
+        "女子校生",
+        "パンチラ",
+        "単体作品",
+        "イタズラ",
+        "ギリモザ",
+        "ハイビジョン",
+        "独占配信"
+      ],
+      "vod_content": "<p>正在查看影片【snis-946】的百科，本页面提供橋本ありな (新ありな)主演作品《毫无防备地诱惑内衣的小恶魔JK桥本Arina》的高清精彩画面截图、作品资料、精彩画面、高清在线播放功能。</p><p style=\"margin-top:8px;color:#666;font-size:12px;\"><b>标签：</b>中文字幕 | 女高中生 | 美丽的女孩 | 短裙 | 单体作品 | 恶作剧 | 超薄格 | 高清 | 独家 | 女子校生 | パンチラ | 単体作品 | イタズラ | ギリモザ | ハイビジョン | 独占配信</p>",
+      "vod_play_from": "whos.tv",
+      "vod_play_url": "https://v-proxy.imgcaches.cc/9eef516a8c196867b51a639311ed5428/9eef516a8c196867b51a639311ed5428.m3u8",
+      "type_name": "成人影片",
+      "actress_avatar": ""
+    },
+    {
+      "vod_id": "mida-368",
+      "vod_name": "我是个处女宅男，被儿时玩伴的无套内裤照撩起性欲。我是个宅男，被保险套盒撩起性欲，用光了所有保险套。宫下玲奈",
+      "vod_pic": "https://v-proxy.imgcaches.cc/images/av/c29eef2a94a19432bbc7e55848305426.jpg",
+      "vod_actor": "未知女优",
+      "vod_director": "whos.tv",
+      "vod_remarks": "HD高清",
+      "vod_pubdate": "2025-10-20",
+      "vod_area": "日本",
+      "vod_year": "2025",
+      "vod_tags": [
+        "美丽的女孩",
+        "辣妹",
+        "青梅竹马",
+        "苗条",
+        "短裙",
+        "单体作品",
+        "高清",
+        "独家",
+        "スレンダー",
+        "単体作品",
+        "幼なじみ",
+        "ギャル",
+        "パンチラ",
+        "独占配信",
+        "ハイビジョン"
+      ],
+      "vod_content": "<p>正在查看影片【mida-368】的百科，本页面提供宮下玲奈主演作品《我是个处女宅男，被儿时玩伴的无套内裤照撩起性欲。我是个宅男，被保险套盒撩起性欲，用光了所有保险套。宫下玲奈》的高清精彩画面截图、作品资料、精彩画面、高清在线播放功能。</p><p style=\"margin-top:8px;color:#666;font-size:12px;\"><b>标签：</b>美丽的女孩 | 辣妹 | 青梅竹马 | 苗条 | 短裙 | 单体作品 | 高清 | 独家 | スレンダー | 単体作品 | 幼なじみ | ギャル | パンチラ | 独占配信 | ハイビジョン</p>",
+      "vod_play_from": "whos.tv",
+      "vod_play_url": "https://v-proxy.imgcaches.cc/c29eef2a94a19432bbc7e55848305426/c29eef2a94a19432bbc7e55848305426.m3u8",
+      "type_name": "成人影片",
+      "actress_avatar": ""
+    },
+    {
+      "vod_id": "urvrsp-252",
+      "vod_name": "[VR][8K VR]最近搬到我管理的公寓的绫濑先生是一个笨拙的女孩和喜怒无常的下流绫濑心",
+      "vod_pic": "https://v-proxy.imgcaches.cc/images/av/8f2a12395c37d187b2eefda765874b69.jpg",
+      "vod_actor": "未知女优",
+      "vod_director": "whos.tv",
+      "vod_remarks": "HD高清",
+      "vod_pubdate": "2023-08-18",
+      "vod_area": "日本",
+      "vod_year": "2023",
+      "vod_tags": [
+        "女大学生",
+        "大乳房",
+        "短裙",
+        "单体作品",
+        "中出",
+        "独家",
+        "虚拟现实",
+        "高品质 VR",
+        "8KVR",
+        "中出し",
+        "女子大生",
+        "パンチラ",
+        "独占配信",
+        "VR専用",
+        "単体作品",
+        "ハイクオリティVR"
+      ],
+      "vod_content": "<p>正在查看影片【urvrsp-252】的百科，本页面提供綾瀬こころ主演作品《[VR][8K VR]最近搬到我管理的公寓的绫濑先生是一个笨拙的女孩和喜怒无常的下流绫濑心》的高清精彩画面截图、作品资料、精彩画面、高清在线播放功能。</p><p style=\"margin-top:8px;color:#666;font-size:12px;\"><b>标签：</b>女大学生 | 大乳房 | 短裙 | 单体作品 | 中出 | 独家 | 虚拟现实 | 高品质 VR | 8KVR | 中出し | 女子大生 | パンチラ | 独占配信 | VR専用 | 単体作品 | ハイクオリティVR</p>",
+      "vod_play_from": "whos.tv",
+      "vod_play_url": "https://v-proxy.imgcaches.cc/8f2a12395c37d187b2eefda765874b69/8f2a12395c37d187b2eefda765874b69.m3u8",
+      "type_name": "成人影片",
+      "actress_avatar": ""
+    },
+    {
+      "vod_id": "cmv-148",
+      "vod_name": "胯绳 DID 衣服束缚女人被绳子绑起来痛苦扭动 2",
+      "vod_pic": "https://v-proxy.imgcaches.cc/images/av/6490b5389d9bef39f920221d0bb17914.jpg",
+      "vod_actor": "未知女优",
+      "vod_director": "whos.tv",
+      "vod_remarks": "HD高清",
+      "vod_pubdate": "2020-11-07",
+      "vod_area": "日本",
+      "vod_year": "2020",
+      "vod_tags": [
+        "约束",
+        "SM",
+        "短裙",
+        "捆绑",
+        "广告偶像",
+        "独家",
+        "パンチラ",
+        "縛り・緊縛",
+        "イメージビデオ",
+        "独占配信"
+      ],
+      "vod_content": "<p>正在查看影片【cmv-148】的百科，本页面提供初島うい主演作品《胯绳 DID 衣服束缚女人被绳子绑起来痛苦扭动 2》的高清精彩画面截图、作品资料、精彩画面、高清在线播放功能。</p><p style=\"margin-top:8px;color:#666;font-size:12px;\"><b>标签：</b>约束 | SM | 短裙 | 捆绑 | 广告偶像 | 独家 | パンチラ | 縛り・緊縛 | イメージビデオ | 独占配信</p>",
+      "vod_play_from": "whos.tv",
+      "vod_play_url": "https://v-proxy.imgcaches.cc/6490b5389d9bef39f920221d0bb17914/6490b5389d9bef39f920221d0bb17914.m3u8",
+      "type_name": "成人影片",
+      "actress_avatar": ""
+    },
+    {
+      "vod_id": "mida-245-uncensored-leak",
+      "vod_name": "MIDA-245 “看到我的内裤，你们就硬起来了吗？”她用紧身内裤诱惑老师们。她在她们耳边低语，然后给她们打飞机，让她们的鸡巴硬起来，所以就让我爽一爽吧……柚木悠悠 - 夕月ゆる",
+      "vod_pic": "https://v-proxy.imgcaches.cc/images/av/2f37e61dec8d27be18582989fe72c535.jpg",
+      "vod_actor": "未知女优",
+      "vod_director": "whos.tv",
+      "vod_remarks": "HD高清",
+      "vod_pubdate": "2025-07-11",
+      "vod_area": "日本",
+      "vod_year": "2025",
+      "vod_tags": [
+        "无码流出",
+        "制服",
+        "美丽的女孩",
+        "短裙",
+        "单体作品",
+        "手淫",
+        "淫语",
+        "高清",
+        "独家",
+        "無修正リーク",
+        "パンチラ",
+        "単体作品",
+        "手コキ",
+        "脏话",
+        "ハイビジョン",
+        "独占配信"
+      ],
+      "vod_content": "<p>正在查看影片【mida-245-uncensored-leak】的百科，本页面提供素人主演作品《MIDA-245 “看到我的内裤，你们就硬起来了吗？”她用紧身内裤诱惑老师们。她在她们耳边低语，然后给她们打飞机，让她们的鸡巴硬起来，所以就让我爽一爽吧……柚木悠悠 - 夕月ゆる》的高清精彩画面截图、作品资料、精彩画面、高清在线播放功能。</p><p style=\"margin-top:8px;color:#666;font-size:12px;\"><b>标签：</b>无码流出 | 制服 | 美丽的女孩 | 短裙 | 单体作品 | 手淫 | 淫语 | 高清 | 独家 | 無修正リーク | パンチラ | 単体作品 | 手コキ | 脏话 | ハイビジョン | 独占配信</p>",
+      "vod_play_from": "whos.tv",
+      "vod_play_url": "https://v-proxy.imgcaches.cc/2f37e61dec8d27be18582989fe72c535/2f37e61dec8d27be18582989fe72c535.m3u8",
+      "type_name": "成人影片",
+      "actress_avatar": ""
+    }
+  ],
+  "count": 5
 }
