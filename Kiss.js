@@ -1,27 +1,67 @@
 // ============================================================
-//  KissJAV 爬虫 - 适配 TVBox / MiraPlay
-//  原 Python 脚本作者: kimtang2
-//  转换日期: 2026-08-08
-//  网站: https://kissjav.li
+//  KissJAV 爬虫 - 兼容 MiraPlay（稳当版）
 // ============================================================
 
 var site_kissjav = {
     name: 'KissJAV',
     host: 'https://kissjav.li',
     pic_host: 'https://assets6.cdnhop.com',
-
     headers: {
         'User-Agent': 'Mozilla/5.0 (Linux; Android 11; SAMSUNG SM-G973U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36',
         'Referer': 'https://kissjav.li/',
         'Origin': 'https://kissjav.li'
     },
 
-    // ---------- 工具方法 ----------
+    // ---------- 安全网络请求 ----------
+    _fetch: function(url, referer) {
+        try {
+            // 尝试使用 http.fetch（TVBox 通用）
+            if (typeof http !== 'undefined' && http.fetch) {
+                var resp = http.fetch(url, {
+                    headers: this.headers,
+                    referer: referer || this.headers.Referer,
+                    timeout: 15000
+                });
+                return resp.text || resp;
+            }
+            // 备用：使用 XMLHttpRequest（同步）
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, false);
+            xhr.setRequestHeader('User-Agent', this.headers['User-Agent']);
+            xhr.setRequestHeader('Referer', referer || this.headers.Referer);
+            xhr.send();
+            return xhr.responseText;
+        } catch(e) {
+            return '';
+        }
+    },
+
+    // ---------- Base64 解码（安全） ----------
+    _decodeBase64: function(str) {
+        if (!str) return '';
+        try {
+            // 尝试 atob
+            if (typeof atob !== 'undefined') return atob(str);
+            // 备用：使用 Buffer（Node 环境）
+            if (typeof Buffer !== 'undefined') return Buffer.from(str, 'base64').toString('utf-8');
+        } catch(e) {}
+        return str;
+    },
+
+    // ---------- 正则匹配辅助 ----------
+    _match: function(text, rule) {
+        if (!text) return '';
+        var m = new RegExp(rule, 's').exec(text);
+        return m ? m[1] : '';
+    },
+
+    // ---------- 清理 HTML ----------
     _clean: function(s) {
         if (!s) return '';
         return s.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').replace(/&nbsp;/g, ' ').trim();
     },
 
+    // ---------- 补全 URL ----------
     _fix: function(url) {
         if (!url) return '';
         if (url.startsWith('//')) return 'https:' + url;
@@ -29,99 +69,66 @@ var site_kissjav = {
         return url;
     },
 
-    _fetch: function(url, referer) {
-        var headers = Object.assign({}, this.headers);
-        if (referer) headers['Referer'] = referer;
-        var resp = http.fetch(url, {
-            headers: headers,
-            timeout: 15000
-        });
-        return resp.text || resp;
-    },
-
-    _match: function(text, rule) {
-        var m = text.match(new RegExp(rule, 's'));
-        return m ? m[1] : '';
-    },
-
-    _decodeBase64: function(str) {
-        if (!str) return '';
-        try {
-            return atob(str);
-        } catch(e) {
-            return str;
-        }
-    },
-
+    // ---------- 真实图片地址 ----------
     _realPic: function(vid) {
         if (!vid) return '';
         var base = Math.floor(parseInt(vid) / 1000) * 1000;
         return this.pic_host + '/contents/videos_screenshots/' + base + '/' + vid + '/320x180/1.jpg';
     },
 
-    // 图片代理（简化，直接返回原URL）
+    // ---------- 图片处理（不代理） ----------
     _img: function(url) {
         return this._fix(url);
     },
 
-    // ---------- 解析视频列表 ----------
+    // ---------- 解析列表（不用 matchAll） ----------
     _parseList: function(html) {
         var res = [];
         var seen = {};
-        var pattern = /<a\s+href=["'](https?:\/\/kissjav\.li\/video\/([^\/]+)\/[^"']*\/)["']\s+title=["']([^"']+)["']/g;
-        var matches = html.matchAll ? [...html.matchAll(pattern)] : [];
-        // 兼容旧浏览器
-        if (!html.matchAll) {
-            var m;
-            while ((m = pattern.exec(html)) !== null) matches.push(m);
-        }
-        matches.forEach(function(m) {
-            var url = m[1];
-            var vid = m[2];
-            if (seen[url]) return;
+        var regex = /<a\s+href=["'](https?:\/\/kissjav\.li\/video\/([^\/]+)\/[^"']*\/)["']\s+title=["']([^"']+)["']/g;
+        var match;
+        while ((match = regex.exec(html)) !== null) {
+            var url = match[1];
+            var vid = match[2];
+            if (seen[url]) continue;
             seen[url] = 1;
-            var start = m.index;
-            var end = html.indexOf('<a href="https://kissjav.li/video/', start + m[0].length);
+            var start = match.index;
+            var end = html.indexOf('<a href="https://kissjav.li/video/', start + match[0].length);
             if (end === -1) end = Math.min(html.length, start + 1600);
             var item = html.substring(start, end);
-            var name = site_kissjav._clean(m[3]);
-            var pic = site_kissjav._match(item, '(?:data-original|data-webp|data-src)=["\']([^"\']+)["\']') ||
-                      site_kissjav._match(item, 'src=["\']([^"\']+)["\']') ||
-                      site_kissjav._realPic(vid);
+            var name = this._clean(match[3]);
+            var pic = this._match(item, '(?:data-original|data-webp|data-src)=["\']([^"\']+)["\']') ||
+                      this._match(item, 'src=["\']([^"\']+)["\']') ||
+                      this._realPic(vid);
             if (pic.indexOf('data:image') > -1 || pic.indexOf('load.gif') > -1 || pic.indexOf('logo') > -1) {
-                pic = site_kissjav._realPic(vid);
+                pic = this._realPic(vid);
             }
-            var remarks = site_kissjav._match(item, '<div[^>]+class=["\'][^"\']*time[^"\']*["\'][^>]*>(.*?)</div>') || vid;
-            remarks = site_kissjav._clean(remarks);
+            var remarks = this._match(item, '<div[^>]+class=["\'][^"\']*time[^"\']*["\'][^>]*>(.*?)</div>') || vid;
+            remarks = this._clean(remarks);
             if (name) {
                 res.push({
                     vod_id: url,
                     vod_name: name,
-                    vod_pic: site_kissjav._img(pic),
+                    vod_pic: this._img(pic),
                     vod_remarks: remarks
                 });
             }
-        });
+        }
         // 备用解析
         if (res.length === 0) {
-            var altPattern = /href=["'](https?:\/\/kissjav\.li\/video\/([^\/]+)\/[^"']*\/)["'][^>]*title=["']([^"']+)["']/g;
-            var altMatches = html.matchAll ? [...html.matchAll(altPattern)] : [];
-            if (!html.matchAll) {
-                var m2;
-                while ((m2 = altPattern.exec(html)) !== null) altMatches.push(m2);
-            }
-            altMatches.forEach(function(m) {
-                var url = m[1];
-                var vid = m[2];
-                if (seen[url]) return;
-                seen[url] = 1;
+            var altRegex = /href=["'](https?:\/\/kissjav\.li\/video\/([^\/]+)\/[^"']*\/)["'][^>]*title=["']([^"']+)["']/g;
+            while ((match = altRegex.exec(html)) !== null) {
+                var url2 = match[1];
+                var vid2 = match[2];
+                if (seen[url2]) continue;
+                seen[url2] = 1;
                 res.push({
-                    vod_id: url,
-                    vod_name: site_kissjav._clean(m[3]),
-                    vod_pic: site_kissjav._img(site_kissjav._realPic(vid)),
-                    vod_remarks: vid
+                    vod_id: url2,
+                    vod_name: this._clean(match[3]),
+                    vod_pic: this._img(this._realPic(vid2)),
+                    vod_remarks: vid2
                 });
-            });
+            }
         }
         return res;
     },
@@ -156,13 +163,12 @@ var site_kissjav = {
             url = this.host + '/' + path + (pg > 1 ? '/' + pg + '/' : '/');
         }
         var html = this._fetch(url);
-        var list = this._parseList(html);
         return {
             page: pg,
             pagecount: 999,
             limit: 30,
             total: 999999,
-            list: list
+            list: this._parseList(html)
         };
     },
 
@@ -186,11 +192,11 @@ var site_kissjav = {
         var m;
         while ((m = re.exec(html)) !== null) {
             var key = m[1].indexOf('_hd') > -1 ? 'HD' : 'SD';
-            var url = m[2];
-            if (url && url !== 'MQ==') {
-                var decoded = this._decodeBase64(url);
-                if (decoded && decoded.startsWith('http')) url = decoded;
-                if (url) eps.push(key + '$' + url);
+            var u = m[2];
+            if (u && u !== 'MQ==') {
+                var decoded = this._decodeBase64(u);
+                if (decoded && decoded.startsWith('http')) u = decoded;
+                if (u) eps.push(key + '$' + u);
             }
         }
         if (eps.length === 0) {
