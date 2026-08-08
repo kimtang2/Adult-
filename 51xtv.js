@@ -1,22 +1,19 @@
 // ============================================================
 //  5lxtv.com 爬虫 - 适配 TVBox / MiraPlay
-//  原 Python 脚本作者: kimtang2
-//  转换日期: 2026-08-08
+//  基于 Python 脚本转换，完全重写为 JS
 // ============================================================
 
-// ---------- 定义站点爬虫对象 ----------
 var site_5lxtv = {
     name: '5lxtv',
     host: 'https://5lxtv.com',
 
-    // 请求头（在 TVBox 中一般不需要手动设置，但保留）
     headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0 Safari/537.36',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8'
     },
 
-    // 内部工具方法
+    // 工具方法
     _fix: function(url) {
         if (!url) return '';
         if (url.startsWith('//')) return 'https:' + url;
@@ -30,8 +27,6 @@ var site_5lxtv = {
     },
 
     _fetch: function(url, referer) {
-        // TVBox 环境通常有 http.fetch 或 fetch
-        // 这里使用 http.fetch（同步方式），如果 MiraPlay 支持则可用
         var resp = http.fetch(url, {
             headers: this.headers,
             referer: referer || this.host,
@@ -72,25 +67,6 @@ var site_5lxtv = {
                 vod.push({ vod_id: href, vod_name: title, vod_pic: pic, vod_remarks: remark });
             }
         });
-        // 备用解析（如果上面的没抓到）
-        if (vod.length === 0) {
-            var altMatches = html.match(/href="(\/videos\/[^"]+)"[\s\S]{0,800}?<img[^>]+src="([^"]+)"[^>]*alt="([^"]*)"/g) || [];
-            altMatches.forEach(function(m) {
-                var parts = m.match(/href="(\/videos\/[^"]+)"[\s\S]{0,800}?<img[^>]+src="([^"]+)"[^>]*alt="([^"]*)"/);
-                if (parts) {
-                    var href = site_5lxtv._fix(parts[1]);
-                    if (!ids[href]) {
-                        ids[href] = 1;
-                        vod.push({
-                            vod_id: href,
-                            vod_name: site_5lxtv._clean(parts[3]),
-                            vod_pic: site_5lxtv._fix(parts[2]),
-                            vod_remarks: ''
-                        });
-                    }
-                }
-            });
-        }
         return vod;
     },
 
@@ -115,7 +91,6 @@ var site_5lxtv = {
                 arr.push({ type_name: name, type_id: href.replace('/', '') });
             }
         });
-        // 如果没抓到，用默认分类（原Python的备用列表）
         if (arr.length === 0) {
             arr = [
                 { type_name: '中文字幕', type_id: 'chinese' },
@@ -137,7 +112,6 @@ var site_5lxtv = {
         var classes = [{ type_name: '最新', type_id: 'latest' }]
                         .concat(this._parseCats(chtml))
                         .concat([{ type_name: '排行', type_id: 'rankings' }]);
-        // 去重
         var ids = {}, clean = [];
         classes.forEach(function(c) {
             if (!ids[c.type_id]) { ids[c.type_id] = 1; clean.push(c); }
@@ -241,8 +215,8 @@ var rule = {
         {
             name: '5lxtv',
             url: 'https://5lxtv.com',
-            type: 3,                         // 自定义解析
-            home: 'site_5lxtv_home',         // 下方挂载的全局函数名
+            type: 3,
+            home: 'site_5lxtv_home',
             category: 'site_5lxtv_category',
             detail: 'site_5lxtv_detail',
             search: 'site_5lxtv_search',
@@ -251,14 +225,14 @@ var rule = {
     ]
 };
 
-// 挂载全局函数（TVBox 通过字符串名查找）
+// 挂载全局函数
 globalThis.site_5lxtv_home = site_5lxtv.homeContent.bind(site_5lxtv);
 globalThis.site_5lxtv_category = site_5lxtv.categoryContent.bind(site_5lxtv);
 globalThis.site_5lxtv_detail = site_5lxtv.detailContent.bind(site_5lxtv);
 globalThis.site_5lxtv_search = site_5lxtv.searchContent.bind(site_5lxtv);
 globalThis.site_5lxtv_player = site_5lxtv.playerContent.bind(site_5lxtv);
 
-// 导出 rule（兼容不同环境）
+// 导出
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = rule;
 } else {
