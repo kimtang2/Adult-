@@ -74,7 +74,6 @@ var index_config_default = {
     {name: "🔞聚合传媒",
       address: "https://php.doube.eu.org/spider/php/麻豆.php"}
 ]},
-t4: {
     list: [
         // ... 已有的其他地址
         { name: "5lxtv", address: "https://raw.githubusercontent.com/kimtang2/Adult-/refs/heads/main/51xtv.js" }
